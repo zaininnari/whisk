@@ -19,7 +19,7 @@ class UserFixture extends CakeTestFixture {
 			'created' => '2010-04-28 03:05:41',
 			'modified' => '2010-04-28 03:05:41',
 			'username' => 'aaaa',
-			'password' => 'f9172a49ea8ed463c1d9946c233a4fb1de699a80'
+			'password' => '886cda4198f50ec0167c8eb38edf7036c838c3aa'
 		),
 	);
 

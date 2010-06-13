@@ -1,7 +1,5 @@
 <?php
 
-
-
 class WhiskCakeTestCase extends CakeTestCase
 {
 
@@ -23,30 +21,24 @@ class WhiskCakeTestCase extends CakeTestCase
 		return $result;
 	}
 
-	protected function login()
-	{
-		return $this->_this->{$this->name}->Session->write('Auth.User', array('id' => 1));
-	}
-
 	protected function _userLogin()
 	{
 		$data = array('User' => array(
 			'username' => 'aaaa',
 			'password' => 'aaaa',
 		));
-	$this->assertNull($this->_this->{$this->name}->Auth->user());
+		$this->assertNull($this->_this->{$this->name}->Auth->user());
 		$result = $this->testAction('/users/login', array(
 			'data' => $data,
 			'method' => 'post',
 		));
-		var_dump($this->_this->{$this->name}->Auth->user());exit;
-		$this->assertEqual($this->_this->{$this->name}->Auth->isAuthorized() , true);
+		$this->assertEqual($this->_this->{$this->name}->Auth->user('id') , 1);
 	}
 
 	protected function _userLogout()
 	{
 		$result = $this->testAction('/users/logout');
-		$this->assertEqual($this->_this->{$this->name}->Auth->isAuthorized() , false);
+		$this->assertNull($this->_this->{$this->name}->Auth->user());
 	}
 
 	protected function _createControllerInstance(&$_this)
@@ -77,9 +69,9 @@ class WhiskCakeTestCase extends CakeTestCase
 		$this->_this->{$this->name}->Component->startup($this->_this->{$this->name});
 	}
 
-
 	function endTest()
 	{
+		$this->_this->{$this->name}->Auth->logout();
 		unset($this->_this->{$this->name});
 		ClassRegistry::flush();
 	}
