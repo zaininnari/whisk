@@ -2,6 +2,7 @@
 class Project extends AppModel {
 
 	var $name = 'Project';
+	var $alias = 'Project';
 	var $validate = array(
 		'name' => array(
 			'allowedChars' => array(
@@ -9,19 +10,26 @@ class Project extends AppModel {
 				'required' => true,
 				'message' => 'Only chars "a-z" and "0-9" , "_" allowed (required 3 chars)',
 			),
-			'allowedName' => array(
-				'rule' => array('custom', '/^((?!projects|users).)*?$/i'),
-				'required' => true,
-				'message' => 'Not allowed name',
-			),
 			'unique' => array(
 				'rule' => 'isUnique',
 				'required' => true,
 				'message' => 'Required: Project must be unique'
 			)
 		),
-		'type' => array('notempty'),
-		'license' => array('notempty')
+		'type' => array(
+			'notempty' => array(
+				'rule' => 'notempty',
+				'required' => true,
+				'message' => 'can not empty'
+			)
+		),
+		'license' => array(
+			'notempty' => array(
+				'rule' => 'notempty',
+				'required' => true,
+				'message' => 'can not empty'
+			)
+		),
 	);
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
