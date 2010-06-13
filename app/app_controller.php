@@ -12,6 +12,15 @@ class AppController extends Controller {
 		//}}}!debug
 	);
 
+	/**
+	 * @var AuthComponent
+	 */
+	public $Auth;
+	/**
+	 * @var SessionComponent
+	 */
+	public $Session;
+
 	protected $_project = null;
 
 	public function beforeFilter()

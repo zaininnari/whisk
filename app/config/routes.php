@@ -1,6 +1,4 @@
 <?php
-require_once APP.'libs'.DS.'whisk_router.php';
-
 
 App::import('Lib', 'routes/ProjectRoute');
 

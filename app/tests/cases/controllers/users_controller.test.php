@@ -5,14 +5,22 @@ App::import('Controller', 'Users');
 
 
 class TestUsersController extends UsersController {
-	public $autoRender = false;
+	//public $autoRender = false;
+	public $redirectUrl = false;
 	public function redirect($url, $status = null, $exit = true)
 	{
-		$this->redirectUrl = $url;
+		return $this->redirectUrl = $url;
 	}
+
 }
 
 class UsersControllerTestCase extends WhiskCakeTestCase {
+	/**
+	 * controller
+	 *
+	 * @var UsersController
+	 */
+	var $Users;
 	var $fixtures = array('app.user', 'app.ticket', 'app.state', 'app.project', 'app.comment');
 
 	function startTest() {
@@ -23,6 +31,33 @@ class UsersControllerTestCase extends WhiskCakeTestCase {
 		parent::endTest();
 	}
 
+	function testNologin()
+	{
+		$result = $this->testAction('/users');
+		$this->assertEqual($this->_parsejson($result) , '/users/login');
+
+		$result = $this->testAction('/users/add');
+		$this->assertNull($this->_parsejson($result));
+
+		$result = $this->testAction('/users/edit');
+		$this->assertEqual($this->_parsejson($result) , array('action' => 'index'));
+
+		$result = $this->testAction('/users/edit/1');
+		$this->assertEqual($this->_parsejson($result) , '/users/login');
+
+		$result = $this->testAction('/users/view');
+		$this->assertEqual($this->_parsejson($result) , array('action' => 'index'));
+
+		$result = $this->testAction('/users/view/1');
+		$this->assertEqual($this->_parsejson($result) , '/users/login');
+
+		$result = $this->testAction('/users/delete');
+		$this->assertEqual($this->_parsejson($result) , array('action' => 'index'));
+
+		$result = $this->testAction('/users/delete/1');
+		$this->assertEqual($this->_parsejson($result) , array('action' => 'index'));
+	}
+
 	function testIndex() {
 		$this->_initControllerAction('index', 'users', true);
 		$this->Users->index();
@@ -31,7 +66,33 @@ class UsersControllerTestCase extends WhiskCakeTestCase {
 	}
 
 	function testView() {
+		$this->_initControllerAction('index', 'users/view', true);
+		$this->Users->view();
+		$output = $this->Users->render('view');
+		$this->assertFalse(strpos($output, '<pre class="cake-debug">'));
+	}
 
+	function testAdd() {
+		$this->_initControllerAction('index', 'users/view', true);
+		$this->Users->data = array('User' => array(
+			'username' => 'bbbb',
+			'password' => 'cccc'
+		));
+		$this->Users->add();
+		$this->assertEqual($this->Users->redirectUrl, array('action' => 'index'));
+	}
+
+
+	function testlogin()
+	{
+		$this->login();
+		$result = $this->testAction('/users');
+		$this->assertNull($this->_parsejson($result));
+	}
+/*
+	function testView() {
+		$this->_initControllerAction('index', 'users/view', false);
+		$result = $this->Users->index();
 	}
 
 	function testAdd()
@@ -60,7 +121,7 @@ class UsersControllerTestCase extends WhiskCakeTestCase {
 		);
 		$this->assertEqual(array_intersect_key($data['User'], $expect), $expect);
 	}
-
+*/
 	function testEdit() {
 
 	}

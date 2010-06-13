@@ -37,8 +37,10 @@ if (defined("TEST_CAKE_CORE_INCLUDE_PATH")) {
 		"exit" => $exit,
 		"session" => $this->Session->read()
 	);
+	$this->viewVars = array();
+	$this->output = null;
 	$this->set("return", $return);
-	$this->render(null, null, TESTS . DS . "views" . DS . "redirect.ctp");
+	$this->render(null, null, TESTS .  "views" . DS . "redirect.ctp");
 	return true;
 }
 ';

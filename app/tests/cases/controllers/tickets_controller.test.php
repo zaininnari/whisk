@@ -1,49 +1,46 @@
 <?php
+require_once APP . '/tests/lib/whisk_cake_test_case.php';
 App::import('Controller', 'Tickets');
 
-class TestTickets extends TicketsController {
+class TestTicketsController extends TicketsController {
 	var $autoRender = false;
+	public function redirect($url, $status = null, $exit = true)
+	{
+		$this->redirectUrl = $url;
+	}
 }
 
-class TicketsControllerTest extends CakeTestCase {
-	var $Tickets = null;
+class TicketsControllerTestCase extends WhiskCakeTestCase {
+	/**
+	 * controller
+	 *
+	 * @var TicketsController
+	 */
+	var $Tickets;
 	var $fixtures = array(
-		'app.state', 'app.project', 'app.user', 'app.ticket', 'app.comment'
+		'app.state', 'app.project', 'user', 'app.ticket', 'app.comment'
 	);
 
 
 	function startTest()
 	{
-		$this->Tickets = new TicketsController();
-		$this->Tickets->constructClasses();
+		$this->_createControllerInstance($this);
 	}
 
 	function endTest()
 	{
-		$this->__userLogout();
-		unset($this->Tickets);
-		ClassRegistry::flush();
+		parent::endTest();
 	}
 
-	function testTicketsControllerInstance()
+
+/*	function testIndex()
 	{
-		$this->assertTrue(is_a($this->Tickets, 'TicketsController'));
-	}
-
-	function testRedirect()
-	{
-		$result = $this->testAction('/users/view/1');
-
-		$josn = json_decode($result, true);
-		$function = $josn !== null ? Set::extract('function', $josn) : null;
-		if ($function === 'cakeError') {
-			$result = Set::extract('method', $josn);
-		} elseif ($function === 'redirect') {
-			$result = Set::extract('url', $josn);
-		}
-		$this->assertEqual($result , '/users/login');
-	}
-
+		$this->_initControllerAction('index', 'users', true);
+		$result = $this->Tickets->index();
+		$output = $this->Tickets->render('index');
+		$this->assertFalse(strpos($output, '<pre class="cake-debug">'));
+	}*/
+/*
 	function testAdd()
 	{
 		$this->__userLogin();
@@ -115,7 +112,7 @@ class TicketsControllerTest extends CakeTestCase {
 
 		$this->assertEqual(0, $this->Tickets->Ticket->find('count'));
 		$this->assertEqual(0, $this->Tickets->Ticket->find('count', array('conditions' => $this->Tickets->getProjectId())));
-	}
+	}*/
 
 	protected function __userLogin()
 	{
