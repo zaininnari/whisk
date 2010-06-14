@@ -37,6 +37,10 @@ if (defined("TEST_CAKE_CORE_INCLUDE_PATH")) {
 		"exit" => $exit,
 		"session" => $this->Session->read()
 	);
+	$_return = json_decode($this->output, true);
+	if ($_return) {
+		$return = $_return;
+	}
 	$this->viewVars = array();
 	$this->output = null;
 	$this->set("return", $return);

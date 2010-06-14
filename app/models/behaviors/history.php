@@ -23,7 +23,6 @@ class HistoryBehavior extends ModelBehavior
 		$data = $Model->data;
 
 
-		//var_dump($data);exit;
 		return true;
 		/*$id = $Model->id;
 		$new_value = $new_data = $Model->data;

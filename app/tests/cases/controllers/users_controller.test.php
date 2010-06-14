@@ -41,22 +41,22 @@ class UsersControllerTestCase extends WhiskCakeTestCase
 		$this->assertNull($this->_parsejson($result));
 
 		$result = $this->testAction('/users/edit');
-		$this->assertEqual($this->_parsejson($result) , array('action' => 'index'));
+		$this->assertEqual($this->_parsejson($result) , '/users/login');
 
 		$result = $this->testAction('/users/edit/1');
 		$this->assertEqual($this->_parsejson($result) , '/users/login');
 
 		$result = $this->testAction('/users/view');
-		$this->assertEqual($this->_parsejson($result) , array('action' => 'index'));
+		$this->assertEqual($this->_parsejson($result) , '/users/login');
 
 		$result = $this->testAction('/users/view/1');
 		$this->assertEqual($this->_parsejson($result) , '/users/login');
 
 		$result = $this->testAction('/users/delete');
-		$this->assertEqual($this->_parsejson($result) , array('action' => 'index'));
+		$this->assertEqual($this->_parsejson($result) , '/users/login');
 
 		$result = $this->testAction('/users/delete/1');
-		$this->assertEqual($this->_parsejson($result) , array('action' => 'index'));
+		$this->assertEqual($this->_parsejson($result) , '/users/login');
 	}
 
 	function testIndex() {
