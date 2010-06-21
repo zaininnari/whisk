@@ -1,10 +1,11 @@
 <?php
 
-App::import(null, 'Controller', true, array(APP . 'libs/controller'));
+require_once CONSOLE_LIBS . 'testsuite.php';
+App::import('Vendor', 'simpletest' . DS . 'reporter');
 
-foreach (array(VENDORS . 'shells/testsuite.php', CONSOLE_LIBS . 'testsuite.php') as $path) {
-	if (file_exists($path)) {
-		require $path;
-		break;
-	}
-}
+
+App::import(null, 'Controller', true, APP . 'libs/controller');
+
+
+
+App::import(null, 'WhiskCakeTestCase', false, TESTS . 'lib');

@@ -1,5 +1,7 @@
 <?php
 
+App::import(null, 'CakeTestCase', false, CAKE_TESTS_LIB);
+
 class WhiskCakeTestCase extends CakeTestCase
 {
 
@@ -54,24 +56,23 @@ class WhiskCakeTestCase extends CakeTestCase
 		$_this->$name->params['named'] = array();
 	}
 
-	protected function _initControllerAction($action = 'index', $url, $login = false)
+	protected function _initControllerAction($action = 'index', $url = '/', $login = false)
 	{
 		$this->_this->{$this->name}->params['action'] = $action;
 		$this->_this->{$this->name}->params['url']['url'] = $url;
-		$a =$this->_this->{$this->name}->Component->initialize($this->_this->{$this->name});
 		if ($login) {
 			$this->_this->{$this->name}->Session->write('Auth.User', array(
 				'id' => 1,
 				'username' => 'admin',
 			));
 		}
-		$this->_this->{$this->name}->beforeFilter();
-		$this->_this->{$this->name}->Component->startup($this->_this->{$this->name});
+		$this->_this->{$this->name}->startupProcess();
 	}
 
 	function endTest()
 	{
 		$this->_this->{$this->name}->Auth->logout();
+		unset($_SESSION);
 		unset($this->_this->{$this->name});
 		ClassRegistry::flush();
 	}

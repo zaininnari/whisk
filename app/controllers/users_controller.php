@@ -3,18 +3,23 @@ class UsersController extends AppController {
 
 	var $name = 'Users';
 
+	/**
+	 * @var User
+	 */
+	var $User;
+
 	function beforeFilter()
 	{
 		$this->Auth->allow('add'); // not auth action
 
 		$params = Router::parse($this->Session->read('Auth.redirect'));
 		if (Set::extract($params, 'controller') === 'users') {
-			$this->Session->write('Auth.redirect', array('controller' => 'projects'));
+			$this->Session->write('Auth.redirect', '/projects');
 		}
 
-		$action = Set::extract($this->params, 'action');
 		// no hash passowrd action
-		if (in_array(Set::extract($this->params, 'action'), array('add', 'edit'), true)) {
+		$action = Set::extract($this->params, 'action');
+		if (in_array($action, array('add', 'edit'), true)) {
 			$this->Auth->authenticate = ClassRegistry::init('User');
 		}
 	}

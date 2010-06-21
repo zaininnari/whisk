@@ -18,10 +18,36 @@
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $html->link(__('CakePHP', true), '/'); ?></h1>
+			<?php
+			if ($session->check('Auth.User')) {
+				echo $html->link(
+					__('logout', true),
+					array(
+						'base' => '',
+						'controller' => 'users',
+						'action' => 'logout'
+					),
+					array('style' => 'color:#FFF')
+				);
+			} else {
+				echo $html->link(
+					__('login', true),
+					array(
+						'base' => '',
+						'controller' => 'users',
+						'action' => 'logout'
+					),
+					array('style' => 'color:#FFF')
+				);
+			}
+
+			?>
 		</div>
+
+		<?php echo $this->element('mainMenu'); ?>
 		<div id="content">
 			<div id="main">
-				<?php $session->flash(); ?>
+				<?php echo $session->flash(); ?>
 				<?php echo $content_for_layout; ?>
 			</div>
 			<div id="side">

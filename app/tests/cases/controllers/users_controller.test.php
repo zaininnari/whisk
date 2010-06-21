@@ -1,5 +1,4 @@
 <?php
-require_once APP . '/tests/lib/whisk_cake_test_case.php';
 
 App::import('Controller', 'Users');
 
@@ -19,7 +18,7 @@ class UsersControllerTestCase extends WhiskCakeTestCase
 	/**
 	 * controller
 	 *
-	 * @var UsersController
+	 * @var TestUsersController
 	 */
 	var $Users;
 	var $fixtures = array('app.user', 'app.ticket', 'app.state', 'app.project', 'app.comment');
@@ -32,35 +31,50 @@ class UsersControllerTestCase extends WhiskCakeTestCase
 		parent::endTest();
 	}
 
-	function testNologin()
+	function testLogin() {
+		$this->Users->data = array('User' => array(
+			'username' => 'aaaa',
+			'password' => 'aaaa'
+		));
+		$this->_initControllerAction('login', 'users/login', false);
+		$this->assertEqual($this->Users->redirectUrl, '/');
+		$this->assertNotEqual($this->Users->Auth->user(), null);
+	}
+
+	function testLogout() {
+		$this->_initControllerAction('logout', 'users/logout', true);
+		$this->assertNotEqual($this->Users->Auth->user(), null);
+		$this->Users->logout();
+		$this->assertNull($this->Users->Auth->user());
+		$this->assertEqual($this->Users->redirectUrl, array('action' => 'index'));
+	}
+
+	function testCheckLoginAction()
 	{
-		$result = $this->testAction('/users');
-		$this->assertEqual($this->_parsejson($result) , '/users/login');
+		$this->_initControllerAction('index', 'users', false);
+		$this->assertEqual($this->Users->redirectUrl, '/users/login');
 
-		$result = $this->testAction('/users/add');
-		$this->assertNull($this->_parsejson($result));
+		$this->Users->redirectUrl = false;
+		$this->_initControllerAction('add', 'users/add', false);
+		$this->assertFalse($this->Users->redirectUrl);
 
-		$result = $this->testAction('/users/edit');
-		$this->assertEqual($this->_parsejson($result) , '/users/login');
+		$this->Users->redirectUrl = false;
+		$this->_initControllerAction('edit', 'users/edit/1', false);
+		$this->assertEqual($this->Users->redirectUrl, '/users/login');
 
-		$result = $this->testAction('/users/edit/1');
-		$this->assertEqual($this->_parsejson($result) , '/users/login');
+		$this->Users->redirectUrl = false;
+		$this->_initControllerAction('view', 'users/view/1', false);
+		$this->assertEqual($this->Users->redirectUrl, '/users/login');
 
-		$result = $this->testAction('/users/view');
-		$this->assertEqual($this->_parsejson($result) , '/users/login');
-
-		$result = $this->testAction('/users/view/1');
-		$this->assertEqual($this->_parsejson($result) , '/users/login');
-
-		$result = $this->testAction('/users/delete');
-		$this->assertEqual($this->_parsejson($result) , '/users/login');
-
-		$result = $this->testAction('/users/delete/1');
-		$this->assertEqual($this->_parsejson($result) , '/users/login');
+		$this->Users->redirectUrl = false;
+		$this->_initControllerAction('delete', 'users/delete/1', false);
+		$this->assertEqual($this->Users->redirectUrl, '/users/login');
 	}
 
 	function testIndex() {
 		$this->_initControllerAction('index', 'users', true);
+		$this->assertFalse($this->Users->redirectUrl);
+		$this->assertNotEqual($this->Users->Auth->user(), null);
 		$this->Users->index();
 		$output = $this->Users->render('index');
 		$this->assertFalse(strpos($output, '<pre class="cake-debug">'));
@@ -68,13 +82,14 @@ class UsersControllerTestCase extends WhiskCakeTestCase
 
 	function testView() {
 		$this->_initControllerAction('view', 'users/view', true);
+		$this->assertFalse($this->Users->redirectUrl);
 		$this->Users->view();
 		$output = $this->Users->render('view');
 		$this->assertFalse(strpos($output, '<pre class="cake-debug">'));
 	}
 
 	function testAdd() {
-		$this->_initControllerAction('add', 'users/view', true);
+		$this->_initControllerAction('add', 'users/add', true);
 
 		$beforeCount = $this->Users->User->find('count');
 		$this->assertEqual(1, $beforeCount);
@@ -126,14 +141,6 @@ class UsersControllerTestCase extends WhiskCakeTestCase
 		$this->assertEqual(array_intersect_key($user['User'], $expect), $expect);
 	}
 
-	function testlogin()
-	{
-		$this->_userLogin();
-	}
 
-	function testlogout()
-	{
-		$this->_userLogout();
-	}
 
 }

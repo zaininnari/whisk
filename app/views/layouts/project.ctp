@@ -47,7 +47,7 @@
 		<?php echo $this->element('mainMenu'); ?>
 		<div id="content">
 			<div id="main">
-				<?php $session->flash(); ?>
+				<?php echo $session->flash(); ?>
 				<?php echo $content_for_layout; ?>
 			</div>
 			<div id="side">
