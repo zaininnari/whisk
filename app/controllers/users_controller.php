@@ -35,7 +35,7 @@ class UsersController extends AppController {
 		$this->Session->setFlash('logout');
 		$this->Auth->logout();
 		$this->redirect(array('action' => 'index'));
-  }
+	}
 
 	function index()
 	{

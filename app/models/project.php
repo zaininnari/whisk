@@ -72,4 +72,10 @@ class Project extends AppModel {
 		)
 	);
 
+	public function isProjectOwner($id)
+	{
+		$result = $this->read(null, $id);
+		return Set::extract($this->alias . '.user_id', $result) == $id;
+	}
+
 }

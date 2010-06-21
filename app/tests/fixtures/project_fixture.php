@@ -17,12 +17,12 @@ class ProjectFixture extends CakeTestFixture {
 
 	var $records = array(
 		array(
-			'id' => 5,
+			'id' => 1,
 			'name' => 'whisk',
 			'description' => 'description',
 			'type' => 'type',
 			'license' => 'license',
-			'user_id' => 32,
+			'user_id' => 1,
 			'created' => '0000-00-00 00:00:00',
 			'modified' => '0000-00-00 00:00:00'
 		),
