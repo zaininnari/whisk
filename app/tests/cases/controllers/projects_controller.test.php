@@ -97,9 +97,11 @@ class ProjectsControllerTestCase extends WhiskCakeTestCase {
 		$expect = array_merge($_expect['Project'], array('user_id' => $this->Projects->getUserId()));
 		$this->assertEqual(array_intersect_key($project['Project'], $expect), $expect);
 
-		$this->assertEqual(count($this->Projects->data['State']), count($project['State']));
+		$stateData = array();
+		$this->Projects->Project->State->setDefaultData($stateData);
+		$this->assertEqual(count($stateData['State']), count($project['State']));
 		foreach ($project['State'] as $n => $v) {
-			$expect = array_merge($this->Projects->data['State'][$n], array('project_id' => $projectId));
+			$expect = array_merge($stateData['State'][$n], array('project_id' => $projectId));
 			$this->assertEqual(array_intersect_key($project['State'][$n], $expect), $expect);
 		}
 	}

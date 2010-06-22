@@ -80,6 +80,13 @@ class Project extends AppModel {
 		)
 	);
 
+	public function setInitData(&$data, $options = array())
+	{
+		parent::setInitData($data, $options);
+		$this->State->setDefaultData($data);
+		return $data;
+	}
+
 	public function isProjectOwner($id)
 	{
 		$result = $this->read(null, $id);

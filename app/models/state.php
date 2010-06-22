@@ -39,29 +39,19 @@ class State extends AppModel {
 		)
 	);
 
-	public function setInitDataState(&$data, $options = array())
+	public function setDefaultData(&$data)
 	{
 		$stateData = array(
-			array('name' => 'new', 'hex' => 'ff1177', 'position' => '0', 'type' => '0',),
-			array('name' => 'open', 'hex' => 'aaaaaa', 'position' => '1', 'type' => '0',),
-			array('name' => 'hold', 'hex' => 'EEBB00', 'position' => '2', 'type' => '0',),
-			array('name' => 'resolved', 'hex' => '66AA00', 'position' => '3', 'type' => '1',),
-			array('name' => 'duplicate', 'hex' => 'AA3300', 'position' => '4', 'type' => '1',),
-			array('name' => 'wont-fix', 'hex' => 'AA3300', 'position' => '5', 'type' => '1',),
-			array('name' => 'invalid', 'hex' => 'AA3300', 'position' => '6', 'type' => '1',),
+			array('name' => 'new', 'hex' => 'ff1177', 'position' => '0', 'type' => '0'),
+			array('name' => 'open', 'hex' => 'aaaaaa', 'position' => '1', 'type' => '0'),
+			array('name' => 'hold', 'hex' => 'EEBB00', 'position' => '2', 'type' => '0'),
+			array('name' => 'resolved', 'hex' => '66AA00', 'position' => '3', 'type' => '1'),
+			array('name' => 'duplicate', 'hex' => 'AA3300', 'position' => '4', 'type' => '1'),
+			array('name' => 'wont-fix', 'hex' => 'AA3300', 'position' => '5', 'type' => '1'),
+			array('name' => 'invalid', 'hex' => 'AA3300', 'position' => '6', 'type' => '1'),
 		);
-		$data[$this->alias] = $stateData;
-		$ids = array(
-			'project_id' => self::getProjectId(),
-			'user_id' => self::getUserId(),
-		);
-		foreach (array_keys($ids) as $n => $v) {
-			if (!array_key_exists($v,$this->_schema)) unset($ids[$v]);
-		}
-		$default = array_merge($ids, $options);
-		foreach ($data[$this->alias] as $n => $v) {
-			$data[$this->alias][$n] = array_merge($data[$this->alias][$n], $default);
-		}
+		$data['State'] = $stateData;
 		return $data;
 	}
+
 }
