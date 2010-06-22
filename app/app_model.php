@@ -6,7 +6,7 @@ class AppModel extends Model {
 	protected $_defaultDataKey = '_defaultData';
 
 	function save($data = null, $validate = true, $fieldList = array(), $defaultData = array()) {
-		if ($data !== null && !empty($data)) {
+		if ($data !== null && isset($data[$this->alias])) {
 			foreach (array('modified', 'updated') as $field) {
 				if (array_key_exists($field, $this->_schema)) {
 					$data[$this->alias][$field] = null;
@@ -20,10 +20,14 @@ class AppModel extends Model {
 
 	public function setInitData(&$data, $options = array())
 	{
-		$default = array_merge(array(
+		$ids = array(
 			'project_id' => self::getProjectId(),
 			'user_id' => self::getUserId(),
-		), $options);
+		);
+		foreach (array_keys($ids) as $n => $v) {
+			if (!array_key_exists($v, $this->_schema)) unset($ids[$v]);
+		}
+		$default = array_merge($ids, $options);
 		$data[$this->alias] = array_merge($data[$this->alias], $default);
 		return $data;
 	}

@@ -3,6 +3,14 @@ class Project extends AppModel {
 
 	var $name = 'Project';
 	var $alias = 'Project';
+	/**
+	 * @var State
+	 */
+	var $State;
+	/**
+	 * @var Ticket
+	 */
+	var $Ticket;
 	var $validate = array(
 		'name' => array(
 			'allowedChars' => array(

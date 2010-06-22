@@ -34,11 +34,17 @@ class ProjectsController extends AppController {
 	function add() {
 		if (!empty($this->data)) {
 			$this->Project->create();
-			$this->data = $this->Project->setInitData($this->data);
-			if ($this->Project->save($this->data)) {
+			$this->Project->begin();
+			$this->Project->setInitData($this->data);
+			$isProject = $this->Project->save($this->data);
+			$projectId = $this->Project->getInsertID();
+			$this->Project->State->setInitDataState($this->data, array('project_id' => $projectId));
+			$isState = $this->Project->State->saveAll($this->data['State'], array('validate' => false, 'atomic' => false));
+			if ($isProject && $isState && $this->Project->commit()) {
 				$this->Session->setFlash(__('The Project has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
+				$this->Project->rollback();
 				$this->Session->setFlash(__('The Project could not be saved. Please, try again.', true));
 			}
 		}
