@@ -52,7 +52,7 @@
 			</div>
 			<div id="side">
 				<?php
-				echo $html->image('icon/32x32/icon-19.png', array('alt'=> __('Create new ticket', true), 'border'=>"0"));
+				echo $html->image('side/icon-19.png', array('alt'=> __('Create new ticket', true), 'border'=>"0"));
 				echo $html->link(__('Create new ticket', true), array(
 					'controller' => 'tickets',
 					'action' => 'add'
@@ -63,7 +63,7 @@
 		</div>
 		<div id="footer">
 			<?php echo $html->link(
-					$html->image('cake.power.gif', array('alt'=> __("CakePHP: the rapid development php framework", true), 'border'=>"0")),
+					$html->image('cake.power.png', array('alt'=> __("CakePHP: the rapid development php framework", true), 'border'=>"0")),
 					'http://www.cakephp.org/',
 					array('target'=>'_blank'), null, false
 				);

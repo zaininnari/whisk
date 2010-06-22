@@ -1,0 +1,4 @@
+#content {width: 100%;display: table;}
+#main , #side {display: table-cell}
+#side {width: 280px;margin-left:20px;}
+#side .actions li {display: block;}
