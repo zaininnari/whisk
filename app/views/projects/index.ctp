@@ -24,7 +24,6 @@ foreach ($projects as $project):
 			<?php
 			echo $html->link(
 				$project['Project']['name'],
-				//array('controller' => '', 'project' => $project['Project']['name'])
 				'/' . WHISK_PROJECT_URL . '/' . $project['Project']['name']
 			);
 			?>

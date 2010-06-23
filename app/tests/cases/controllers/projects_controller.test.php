@@ -32,21 +32,6 @@ class ProjectsControllerTestCase extends WhiskCakeTestCase {
 
 	function testNologin()
 	{
-		$result = $this->testAction('/projects');
-		$this->assertNull($this->_parsejson($result));
-
-		$result = $this->testAction('/projects/add');
-		$this->assertEqual($this->_parsejson($result) , '/users/login');
-
-		$result = $this->testAction('/projects/edit/1');
-		$this->assertEqual($this->_parsejson($result) , '/users/login');
-
-		$result = $this->testAction('/projects/delete/5');
-		$this->assertEqual($this->_parsejson($result) , '/users/login');
-
-		$this->_initControllerAction('index', 'users', false);
-		$this->assertFalse($this->Projects->redirectUrl);
-
 		$this->Projects->redirectUrl = false;
 		$this->_initControllerAction('add', 'projects/add', false);
 		$this->assertEqual($this->Projects->redirectUrl, '/users/login');
@@ -63,6 +48,7 @@ class ProjectsControllerTestCase extends WhiskCakeTestCase {
 		$this->_initControllerAction('delete', 'projects/delete/1', false);
 		$this->assertEqual($this->Projects->redirectUrl, '/users/login');
 	}
+
 
 
 	function testIndex() {

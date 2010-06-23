@@ -71,7 +71,7 @@ class Project extends AppModel {
 			'dependent' => true,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => array('State.position', 'State.type', 'State.id'),
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',
