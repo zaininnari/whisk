@@ -32,6 +32,9 @@ class ProjectsControllerTestCase extends WhiskCakeTestCase {
 
 	function testNologin()
 	{
+		$this->_initControllerAction('index', 'projects', false);
+		$this->assertFalse($this->Projects->redirectUrl);
+
 		$this->Projects->redirectUrl = false;
 		$this->_initControllerAction('add', 'projects/add', false);
 		$this->assertEqual($this->Projects->redirectUrl, '/users/login');
