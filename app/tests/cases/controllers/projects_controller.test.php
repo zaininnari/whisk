@@ -52,8 +52,6 @@ class ProjectsControllerTestCase extends WhiskCakeTestCase {
 		$this->assertEqual($this->Projects->redirectUrl, '/users/login');
 	}
 
-
-
 	function testIndex() {
 		$this->_initControllerAction('index', 'projects/index', true);
 		$this->assertFalse($this->Projects->redirectUrl);

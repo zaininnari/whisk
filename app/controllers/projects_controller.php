@@ -8,16 +8,6 @@ class ProjectsController extends AppController {
 	 */
 	var $Project;
 
-	public function __construct()
-	{
-		$index = array_search('Project', $this->components, true);
-		if ($index !== false) {
-			unset($this->components[$index]);
-			$this->components = array_merge(array(), array_diff($this->components, array()));
-		}
-		parent::__construct();
-	}
-
 	function index() {
 		$this->Project->recursive = 0;
 		$this->set('projects', $this->paginate());
