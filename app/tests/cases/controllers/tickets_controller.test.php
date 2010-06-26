@@ -1,5 +1,4 @@
 <?php
-require_once APP . '/tests/lib/whisk_cake_test_case.php';
 App::import('Controller', 'Tickets');
 
 class TestTicketsController extends TicketsController {
@@ -113,26 +112,5 @@ class TicketsControllerTestCase extends WhiskCakeTestCase {
 		$this->assertEqual(0, $this->Tickets->Ticket->find('count'));
 		$this->assertEqual(0, $this->Tickets->Ticket->find('count', array('conditions' => $this->Tickets->getProjectId())));
 	}*/
-
-	protected function __userLogin()
-	{
-		$data = array('User' => array(
-			'username' => 'aaaa',
-			'password' => 'aaaa',
-		));
-
-		$this->assertEqual($this->Tickets->Auth->isAuthorized() , false);
-		$result = $this->testAction('/users/login', array(
-			'data' => $data,
-			'method' => 'post',
-		));
-		$this->assertEqual($this->Tickets->Auth->isAuthorized() , true);
-	}
-
-	protected function __userLogout()
-	{
-		$result = $this->testAction('/users/logout');
-		$this->assertEqual($this->Tickets->Auth->isAuthorized() , false);
-	}
 
 }
