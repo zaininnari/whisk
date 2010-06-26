@@ -16,4 +16,31 @@ class StateFixture extends CakeTestFixture {
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
 	);
 
+	var $records = array(
+		// see __construct()
+	);
+
+	function __construct()
+	{
+		$_records = array(
+			array('name' => 'new', 'hex' => 'ff1177', 'position' => '0', 'type' => '0'),
+			array('name' => 'open', 'hex' => 'aaaaaa', 'position' => '1', 'type' => '0'),
+			array('name' => 'hold', 'hex' => 'EEBB00', 'position' => '2', 'type' => '0'),
+			array('name' => 'resolved', 'hex' => '66AA00', 'position' => '3', 'type' => '1'),
+			array('name' => 'duplicate', 'hex' => 'AA3300', 'position' => '4', 'type' => '1'),
+			array('name' => 'wont-fix', 'hex' => 'AA3300', 'position' => '5', 'type' => '1'),
+			array('name' => 'invalid', 'hex' => 'AA3300', 'position' => '6', 'type' => '1'),
+		);
+		$m = array(
+			'project_id' => 1,
+			'created' => '0000-00-00 00:00:00',
+			'modified' => '0000-00-00 00:00:00'
+		);
+		foreach ($_records as $k => $v) {
+			$_records[$k] = array_merge($v, $m);
+		}
+		$this->records = $_records;
+		parent::__construct();
+	}
+
 }

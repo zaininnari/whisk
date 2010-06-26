@@ -7,7 +7,7 @@ class UserTestCase extends CakeTestCase {
 	 * @var User
 	 */
 	public $User;
-	var $fixtures = array('app.user', 'app.ticket', 'app.state', 'app.project', 'app.comment');
+	var $fixtures = array('app.user', 'app.ticket', 'app.project', 'app.state', 'app.comment');
 
 	function startTest() {
 		$this->User =& ClassRegistry::init('User');

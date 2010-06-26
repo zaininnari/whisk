@@ -58,6 +58,10 @@ class WhiskCakeTestCase extends CakeTestCase
 
 	protected function _initControllerAction($action = 'index', $url = '/', $login = false)
 	{
+		$Dispatcher = new Dispatcher();
+		if ($url !== '/') $url = '/' . $url;
+		$Dispatcher->parseParams($url);
+
 		$this->_this->{$this->name}->params['action'] = $action;
 		$this->_this->{$this->name}->params['url']['url'] = $url;
 		if ($login) {

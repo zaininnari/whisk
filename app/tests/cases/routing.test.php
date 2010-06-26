@@ -3,7 +3,7 @@ App::import('Core', array('Dispatcher', 'Router'));
 
 class RoutingTestCase extends CakeTestCase
 {
-	var $fixtures = array('app.state', 'app.project', 'app.user', 'app.ticket', 'app.comment');
+	var $fixtures = array('app.project', 'app.state', 'app.user', 'app.ticket', 'app.comment');
 	public function testParseBase()
 	{
 		App::import('Core', array('Session'));

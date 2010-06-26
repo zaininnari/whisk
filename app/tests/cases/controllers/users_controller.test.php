@@ -21,7 +21,7 @@ class UsersControllerTestCase extends WhiskCakeTestCase
 	 * @var TestUsersController
 	 */
 	var $Users;
-	var $fixtures = array('app.user', 'app.ticket', 'app.state', 'app.project', 'app.comment');
+	var $fixtures = array('app.state', 'app.user', 'app.ticket', 'app.project', 'app.comment');
 
 	function startTest() {
 		$this->_createControllerInstance($this);

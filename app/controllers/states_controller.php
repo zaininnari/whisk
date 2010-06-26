@@ -2,7 +2,10 @@
 class StatesController extends AppController {
 
 	var $name = 'States';
-
+	/**
+	 * @var State
+	 */
+	var $State;
 
 	function __construct()
 	{
@@ -28,15 +31,17 @@ class StatesController extends AppController {
 	function add() {
 		if (!empty($this->data)) {
 			$this->State->create();
-			$this->data = $this->State->initData($this->data, array(
+			$this->State->begin(true);
+			$this->State->setInitData($this->data, array(
 				'hex' => 'ff6600',
 				'type' => 0,
-				'position' => $this->State->findCount() + 1
+				'position' => $this->State->find('count', array('conditions' => array('project_id' => $this->getProjectId())))
 			));
-			if ($this->State->save($this->data)) {
+			if ($this->State->save($this->data) && $this->State->commit()) {
 				$this->Session->setFlash(__('The State has been saved', true));
 				$this->redirect(array('action' => 'index'));
 			} else {
+				$this->State->rollback();
 				$this->Session->setFlash(__('The State could not be saved. Please, try again.', true));
 			}
 		}

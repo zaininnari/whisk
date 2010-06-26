@@ -18,7 +18,7 @@ class TicketsControllerTestCase extends WhiskCakeTestCase {
 	 */
 	var $Tickets;
 	var $fixtures = array(
-		'app.state', 'app.project', 'user', 'app.ticket', 'app.comment'
+		'app.project', 'app.state', 'user', 'app.ticket', 'app.comment'
 	);
 
 
