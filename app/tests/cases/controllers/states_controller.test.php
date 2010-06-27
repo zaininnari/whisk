@@ -67,15 +67,40 @@ class StatesControllerTestCase extends WhiskCakeTestCase {
 		$this->assertEqual(array_intersect_key($state['State'], $expect), $expect);
 	}
 
+	function testNoAjaxEdit() {
+		$stateId = 1;
+		$this->_initControllerAction('ajax_edit', 'p/whisk/states/ajax_edit/' . $stateId, true);
+		$this->States->ajax_edit($stateId);
+		$output = $this->States->render('ajax_edit');
+		$json = json_decode($output);
+		$this->assertTrue($json->error);
+		$this->assertEqual($json->message, 'Invalid id or not XMLHttpRequest.');
+		$this->assertFalse($this->States->redirectUrl);
+		$this->assertFalse($this->States->statusCode);
+	}
+
+	function testAjaxEditNoData() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$stateId = 1;
+		$this->_initControllerAction('ajax_edit', 'p/whisk/states/ajax_edit/' . $stateId, true);
+		$this->States->ajax_edit($stateId);
+		$output = $this->States->render('ajax_edit');
+		$json = json_decode($output);
+		$this->assertTrue($json->error);
+		$this->assertEqual($json->message, 'The State could not be saved. Please, try again.');
+		$this->assertFalse($this->States->redirectUrl);
+		$this->assertFalse($this->States->statusCode);
+	}
+
 	function testAjaxEdit() {
 		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
 		$stateId = 1;
 
-		$_expect = $this->States->params = array('form' => array(
+		$expect = $_POST = array(
 			'name' => 'changeName',
 			'hex' => 'ffffff',
 			'type' => '1',
-		));
+		);
 		$this->_initControllerAction('ajax_edit', 'p/whisk/states/ajax_edit/' . $stateId, true);
 		$this->States->ajax_edit($stateId);
 		$this->assertFalse($this->States->redirectUrl);
@@ -84,7 +109,7 @@ class StatesControllerTestCase extends WhiskCakeTestCase {
 		$output = $this->States->render('ajax_edit');
 		$this->assertFalse(json_decode($output)->error);
 		$state = $this->States->State->findById($stateId);
-		$expect = $_expect['form'];
+
 		$this->assertEqual(array_intersect_key($state['State'], $expect), $expect);
 	}
 

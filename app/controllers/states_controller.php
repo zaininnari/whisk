@@ -55,7 +55,7 @@ class StatesController extends AppController {
 		Configure::write('debug', 0);
 		$this->layout = 'ajax';
 		if (!$id || !$this->RequestHandler->isAjax()) {
-			return $this->cakeError('error404');
+			return $this->set('state', array('error' => true, 'message' => __('Invalid id or not XMLHttpRequest.', true)));
 		}
 
 		if (empty($this->params['form'])) {

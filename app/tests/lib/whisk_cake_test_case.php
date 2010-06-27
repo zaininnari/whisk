@@ -78,7 +78,7 @@ class WhiskCakeTestCase extends CakeTestCase
 	function endTest()
 	{
 		$this->_this->{$this->name}->Auth->logout();
-		unset($_SESSION, $this->_this->{$this->name}, $_SERVER['HTTP_X_REQUESTED_WITH']);
+		unset($_SESSION, $this->_this->{$this->name}, $_SERVER['HTTP_X_REQUESTED_WITH'], $_GET, $_POST);
 		ClassRegistry::flush();
 	}
 }
