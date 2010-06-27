@@ -59,8 +59,10 @@ class WhiskCakeTestCase extends CakeTestCase
 	protected function _initControllerAction($action = 'index', $url = '/', $login = false)
 	{
 		$Dispatcher = new Dispatcher();
-		if ($url !== '/') $url = '/' . $url;
-		$Dispatcher->parseParams($url);
+		if ($url !== '/') $_url = '/' . $url;
+		else $_url = $url;
+		$params = $Dispatcher->parseParams($_url);
+		$this->_this->{$this->name}->params = $params;
 
 		$this->_this->{$this->name}->params['action'] = $action;
 		$this->_this->{$this->name}->params['url']['url'] = $url;
@@ -76,8 +78,7 @@ class WhiskCakeTestCase extends CakeTestCase
 	function endTest()
 	{
 		$this->_this->{$this->name}->Auth->logout();
-		unset($_SESSION);
-		unset($this->_this->{$this->name});
+		unset($_SESSION, $this->_this->{$this->name}, $_SERVER['HTTP_X_REQUESTED_WITH']);
 		ClassRegistry::flush();
 	}
 }

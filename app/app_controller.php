@@ -7,7 +7,7 @@ class AppController extends Controller {
 		'Auth',
 		'Session',
 		//{{{!debug
-		'DebugKit.Toolbar'
+		//'DebugKit.Toolbar'
 		//}}}!debug
 	);
 

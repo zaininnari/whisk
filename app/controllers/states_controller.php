@@ -7,6 +7,11 @@ class StatesController extends AppController {
 	 */
 	var $State;
 
+	/**
+	 * @var RequestHandlerComponent
+	 */
+	var $RequestHandler;
+
 	function __construct()
 	{
 		$this->helpers[] = 'Javascript';
@@ -14,13 +19,12 @@ class StatesController extends AppController {
 		parent::__construct();
 	}
 
-	public function beforeFilter()
+	protected function beforeFilterProjectRoute()
 	{
-		parent::beforeFilter();
-		if (!$this->isProjectRoute()) {
+		if (self::getProjectId() === null) {
 			return $this->cakeError('error404');
 		}
-		$this->Auth->deny('index', 'view'); // deny all action
+		$this->layout = 'project';
 	}
 
 	function index() {

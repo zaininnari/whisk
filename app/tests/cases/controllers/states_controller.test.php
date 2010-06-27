@@ -62,13 +62,30 @@ class StatesControllerTestCase extends WhiskCakeTestCase {
 			'hex' => 'ff6600',
 			'type' => '0',
 			'project_id' => $this->States->getProjectId(),
-			'position' => $beforeCOunt)
-		);
+			'position' => $beforeCOunt
+		));
 		$this->assertEqual(array_intersect_key($state['State'], $expect), $expect);
 	}
 
 	function testAjaxEdit() {
+		$_SERVER['HTTP_X_REQUESTED_WITH'] = 'XMLHttpRequest';
+		$stateId = 1;
 
+		$_expect = $this->States->params = array('form' => array(
+			'name' => 'changeName',
+			'hex' => 'ffffff',
+			'type' => '1',
+		));
+		$this->_initControllerAction('ajax_edit', 'p/whisk/states/ajax_edit/' . $stateId, true);
+		$this->States->ajax_edit($stateId);
+		$this->assertFalse($this->States->redirectUrl);
+		$this->assertFalse($this->States->statusCode);
+
+		$output = $this->States->render('ajax_edit');
+		$this->assertFalse(json_decode($output)->error);
+		$state = $this->States->State->findById($stateId);
+		$expect = $_expect['form'];
+		$this->assertEqual(array_intersect_key($state['State'], $expect), $expect);
 	}
 
 	function testAjaxSort() {
